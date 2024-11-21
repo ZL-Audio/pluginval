@@ -87,7 +87,13 @@ void PluginTests::runTest()
 {
     // This has to be called on a background thread to keep the message thread free
     jassert (! juce::MessageManager::existsAndIsCurrentThread());
-
+    #if __has_feature(address_sanitizer)
+        logMessage ("Address sanitizer enabled");
+    #elif defined(__SANITIZE_ADDRESS__)
+        logMessage ("Address sanitizer enabled");
+    #else
+        logMessage ("Address sanitizer disabled");
+    #endif
     logMessage ("Validation started");
     logVerboseMessage ("\t" + juce::Time::getCurrentTime().toString (true, true) + "\n");
     logMessage ("Strictness level: " + juce::String (options.strictnessLevel));
