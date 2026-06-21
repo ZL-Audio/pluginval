@@ -188,11 +188,6 @@ target_link_libraries(pluginval PRIVATE
     juce::juce_recommended_warning_flags
     magic_enum)
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    target_link_libraries(pluginval PRIVATE
-        -static-libstdc++)
-endif()
-
 # Embed the SDK's validator binary into pluginval
 if(PLUGINVAL_VST3_VALIDATOR)
     set(VSTVALIDATOR_HEADER "${CMAKE_BINARY_DIR}/generated/vstvalidator_data.h")
