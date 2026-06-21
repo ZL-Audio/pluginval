@@ -67,6 +67,9 @@ inline bool throwIfRequiredAndReturnShouldLog()
  #define ATTRIBUTE_USED
 #endif
 
+// Disable custom allocators when building with Thread or Address Sanitizers
+#if !defined(__SANITIZE_THREAD__) && !defined(__SANITIZE_ADDRESS__) && !__has_feature(thread_sanitizer) && !__has_feature(address_sanitizer)
+
 ATTRIBUTE_USED void* operator new (std::size_t sz)
 {
     if (! logAllocationViolationIfNotAllowed())
@@ -121,6 +124,8 @@ void operator delete[] (void* ptr, size_t) noexcept
 
     std::free (ptr);
 }
+#endif
+
 #endif
 
 //==============================================================================
